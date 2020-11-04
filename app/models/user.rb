@@ -6,9 +6,19 @@ class User < ApplicationRecord
 
   # belongs_to :books
 
-  has_many :books, dependent: :destroy
   attachment :profile_image, destroy: false
 
   validates :name, length: {maximum: 20, minimum: 2}, uniqueness: true
   validates :introduction, length: {maximum: 50}
+
+
+  has_many :books, dependent: :destroy
+  has_many :book_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+
+
+  def already_favorited?(book)
+    self.favorites.exists?(book_id: book.id)
+  end
 end
+

@@ -17,6 +17,11 @@
         </td>
         <td><%= link_to book.title, book_path(book), class: "book_#{book.id}" %></td>
         <td><%= book.body %></td>
+        <li id="book-<%= book.id %>" data-micropost-id="<%= book.id %>">
+          <span class="timestamp">
+          </span>
+            <%= render "favorites/favorite", book: book %>
+        </li>
       </tr>
     <% end %>
   </tbody>

@@ -1,0 +1,19 @@
+	<% if @book.favorited_by?(current_user) %>
+		<td>
+		  <%= link_to "book_favorites_path", method: :delete, class:"element", remote: true do %>
+				<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+		  <%= @book.favorites.count %>
+			<% end %>
+		</td>
+		<% else %>
+		<td>
+		  <%= link_to "", method: post, class:"element", remote: true do %>
+		     <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+		  <%= @book.favorites.count %>
+		<% end %>
+		</td>
+	<% end %>
+
+	<td>
+		<a class="comment-count">コメント数:<%= @book.favorites.count %></a>
+	</td>
