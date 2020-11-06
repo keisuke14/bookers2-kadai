@@ -10,8 +10,28 @@
 		<th>introduction</th>
 		<th><%= user.introduction %></th>
 	</tr>
+	<tr>
+		<th>follows</th>
+		<th><%= link_to do %><%= user.followings.count %><% end %></th>
+	</tr>
+	<tr>
+		<th>followers</th>
+		<th><%= link_to do %><%= user.followers.count %><% end %></th>
+	</tr>
 </table>
 
 <div class="row">
-	<%= link_to '', edit_user_path(user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
+		<% unless current_user == user %>
+			<% if current_user.following?(user) %>
+				<%= form_with(url: relationship_path, method: :delete, local: true) do |f| %>
+					<%= f.hidden_field :followed_id, :value => user.id %>
+					<%= f.submit 'フォロー外す', class: '' %>
+				<% end %>
+			<% else %>
+				<%= form_with(url: relationship_path, method: :post, local: true) do |f| %>
+					<%= f.hidden_field :followed_id, :value => user.id %>
+			    <%= f.submit 'フォローする', class: '' %>
+		    <% end %>
+		  <% end %>
+		 <% end %>
 </div>
