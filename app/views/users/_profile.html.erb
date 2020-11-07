@@ -23,12 +23,12 @@
 <div class="row">
 		<% unless current_user == user %>
 			<% if current_user.following?(user) %>
-				<%= form_with(url: relationship_path, method: :delete, local: true) do |f| %>
+				<%= form_with(url: user_relationship_path(user.id), method: :delete, local: true) do |f| %>
 					<%= f.hidden_field :followed_id, :value => user.id %>
 					<%= f.submit 'フォロー外す', class: '' %>
 				<% end %>
 			<% else %>
-				<%= form_with(url: relationship_path, method: :post, local: true) do |f| %>
+				<%= form_with(url: user_relationship_path(user.id), method: :post, local: true) do |f| %>
 					<%= f.hidden_field :followed_id, :value => user.id %>
 			    <%= f.submit 'フォローする', class: '' %>
 		    <% end %>
