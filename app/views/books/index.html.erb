@@ -1,3 +1,16 @@
+	<div class="text-center">
+ 		<div class="row">
+ 			<% if user_signed_in? %>
+				<%= form_with url: search_index_path, method: :get, local: true do |f| %>
+		  		<%= text_field_tag :search_word %>
+		  		<%= f.select :search_model, [["User"],["Book"]] %>
+		  		<%= f.select :search_method, [["完全一致","perfect_match"],["前方一致","forward_match"],["後方一致","backward_match"],["部分一致","partial_match"]] %>
+		  　	<%= submit_tag '検索', :name => nil %>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+
 	<div class="container">
     <div class="row">
       <div class="col-xs-3">

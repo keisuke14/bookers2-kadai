@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     get :followers, on: :member
   end
 
+  resources :search
+
   get 'home/about' => 'homes#about', as: 'about'
 
 
