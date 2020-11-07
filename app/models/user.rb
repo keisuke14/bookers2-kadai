@@ -40,6 +40,10 @@ class User < ApplicationRecord
     self.followings.include?(other_user)
   end
 
+  def followed_by?(other_user)
+    self.followers.include?(other_user)
+  end
+
 end
 
 
