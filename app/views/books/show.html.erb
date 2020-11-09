@@ -31,8 +31,7 @@
 				      <li><%= message %></li>
 				    <% end %>
 				  <% end %>
-
-				<table class="table">
+					<table class="table">
 						<tr>
 							<td>
 								<%= link_to user_path(@book.user) do %>
@@ -43,21 +42,10 @@
 							<td><%= link_to @book.title, book_path(@book) %></td>
 							<td><%= @book.body %></td>
 
-								<% if @book.favorited_by?(current_user) %>
-								<td>
-								  <%= link_to book_favorites_path(@book), method: :delete do %>
-										<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-								  <%= @book.favorites.count %>
-									<% end %>
-								</td>
-								<% else %>
-								<td>
-								  <%= link_to book_favorites_path(@book), method: :post do %>
-								     <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-								  <%= @book.favorites.count %>
-								<% end %>
-								</td>
-							<% end %>
+							<td id="favorite_<%= @book.id %>">
+								<%= render 'books/favorite', book: @book %>
+							</td>
+
 							<td><a class="comment-count">コメント数:<%= @book.favorites.count %></a></td>
 							<% if current_user == @book.user %>
 								<td><%= link_to "Edit", edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
@@ -66,28 +54,23 @@
 							</tr>
 						</table>
 
-							<% @book_comments.each do |book_comment| %>
-						  <table>
-							<tr>
-							  <td><%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %></td>
-							  <td><%= book_comment.body %></td>
-							  <td><%= link_to "Destroy", book_book_comment_path(@book.id,book_comment.id), method: :delete, class: "btn btn-danger pull-right" %></td>
-							 </tr>
-						  </table>
-							<% end %>
+							<div class = "book_comment">
+						<%= render 'books/book_comment', book_comments: @book_comments %>
+							</div>
 
-						<%= form_for( [@book,@book_comment], url: book_book_comments_path(@book)) do |f| %>
+						<%= form_with model: @book_comment, url: book_book_comments_path(@book), remote: true do |f| %>
 						  <div class="row">
 						     <div class="col-sm-12">
 						     	<tr>
-							      <td><%= f.text_area :body, rows:'5', class: "form-control",placeholder: "" %></td>
+							      <td><%= f.text_area :body, rows:'5', class: "form-control",id: 'comment_textarea', placeholder: "" %></td>
 							     </tr>
 							    </div>
 							  </div>
 
-							  <%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
+							  <%= f.submit "送信", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
 							<% end %>
 							<% if @book_comment.user == current_user %>
-		         		 <% end %>
-			</div>
-		</div>
+				     		 <% end %>
+						</td>
+					</div>
+				</div>
